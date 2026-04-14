@@ -1,133 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<title>IndiGDP AI Dashboard</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/glass.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>IndiGDP AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
 </head>
 
-<body>
+<body onload="if(localStorage.getItem('theme')==='dark') document.body.classList.add('dark-mode');">
+
+    <!-- Abstract Background Graphics -->
+    <div class="bg-graphics">
+        <div class="graphic g-glow"></div>
+        <div class="graphic g-square"></div>
+        <div class="graphic g-dots"></div>
+        <div class="graphic g-ring"></div>
+        <div class="graphic g-ball"></div>
+        <div class="graphic g-pill"></div>
+    </div>
 
 <div class="app-layout fade-in">
 
-<!---------------- SIDEBAR ---------------->
+    <!---------------- SIDEBAR ---------------->
+    <div class="sidebar bento-card">
+        <h3>IndiGDP AI</h3>
+        <a href="/dashboard"><button class="nav-btn btn-haptic active">Dashboard</button></a>
+        <a href="/history"><button class="nav-btn btn-haptic">History</button></a>
+        <a href="/settings"><button class="nav-btn btn-haptic">Settings</button></a>
+    </div>
 
-<div class="sidebar">
+    <!---------------- MAIN AREA ---------------->
+    <div class="main-area">
 
-<h3>IndiGDP AI</h3>
+        <!------ KPI CARDS ------>
+        <div class="kpi-row">
+            <div class="bento-card kpi-card btn-haptic">
+                <h4>System Status</h4>
+                <p id="status">Ready</p>
+            </div>
+            <div class="bento-card kpi-card btn-haptic">
+                <h4>Core Engine</h4>
+                <p>Random Forest</p>
+            </div>
+            <div class="bento-card kpi-card btn-haptic">
+                <h4>Current Accuracy</h4>
+                <p>94%</p>
+            </div>
+        </div>
 
-<a href="/dashboard">
-    <button class="predict-btn">Dashboard</button>
-</a>
+        <!------ INPUT PANEL ------>
+        <div class="bento-card">
+            <div class="input-panel">
+                <div class="slider-box">
+                    <label>Inflation (%) <span id="inflationValue">5</span></label>
+                    <input type="range" min="0" max="15" step="0.1" value="5" id="inflation">
+                </div>
+                <div class="slider-box">
+                    <label>Population (Billions) <span id="populationValue">1.4</span></label>
+                    <input type="range" min="1" max="1.6" step="0.01" value="1.4" id="population">
+                </div>
+                <div class="slider-box">
+                    <label>Exports (Billion USD) <span id="exportsValue">400</span></label>
+                    <input type="range" min="100" max="600" step="10" value="400" id="exports">
+                </div>
+                <div class="slider-box">
+                    <label>Imports (Billion USD) <span id="importsValue">500</span></label>
+                    <input type="range" min="200" max="700" step="10" value="500" id="imports">
+                </div>
+                <div class="slider-box">
+                    <label>FDI (Billion USD) <span id="fdiValue">50</span></label>
+                    <input type="range" min="10" max="150" step="5" value="50" id="fdi">
+                </div>
+                <div class="slider-box">
+                    <label>Savings (%) <span id="savingsValue">30</span></label>
+                    <input type="range" min="10" max="50" step="1" value="30" id="savings">
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button class="predict-btn btn-haptic" onclick="predictGDP()">Run Prediction Computing</button>
+            </div>
+            
+            <div id="loader" class="loader" style="display:none"></div>
+            
+            <div id="resultBox" style="margin-top: 15px;"></div>
+        </div>
 
-<a href="/history">
-    <button class="predict-btn">History</button>
-</a>
+        <!------ CHART ------>
+        <div class="bento-card chart-panel">
+            <canvas id="gdpChart"></canvas>
+        </div>
 
-<a href="/settings">
-    <button class="predict-btn">Settings</button>
-</a>
-
-
-</div>
-
-<!---------------- MAIN AREA ---------------->
-
-<div class="main-area">
-
-<h2>GDP Prediction Dashboard</h2>
-
-<!------ KPI CARDS ------>
-
-<div class="kpi-row">
-
-<div class="kpi-card">
-<h4>Status</h4>
-<p id="status">Ready</p>
-</div>
-
-<div class="kpi-card">
-<h4>Model</h4>
-<p>Random Forest</p>
-</div>
-
-<div class="kpi-card">
-<h4>Accuracy</h4>
-<p>94%</p>
-</div>
-
-</div>
-
-<!------ INPUT PANEL ------>
-
-<div class="input-panel">
-
-<!-- Inflation -->
-<div class="slider-box">
-<label>Inflation (%)</label>
-<span id="inflationValue">5</span>
-<input type="range" min="0" max="15" step="0.1" value="5" id="inflation">
-</div>
-
-<!-- Population -->
-<div class="slider-box">
-<label>Population (Billions)</label>
-<span id="populationValue">1.4</span>
-<input type="range" min="1" max="1.6" step="0.01" value="1.4" id="population">
-</div>
-
-<!-- Exports -->
-<div class="slider-box">
-<label>Exports (Billion USD)</label>
-<span id="exportsValue">400</span>
-<input type="range" min="100" max="600" step="10" value="400" id="exports">
-</div>
-
-<!-- Imports -->
-<div class="slider-box">
-<label>Imports (Billion USD)</label>
-<span id="importsValue">500</span>
-<input type="range" min="200" max="700" step="10" value="500" id="imports">
-</div>
-
-<!-- FDI -->
-<div class="slider-box">
-<label>FDI (Billion USD)</label>
-<span id="fdiValue">50</span>
-<input type="range" min="10" max="150" step="5" value="50" id="fdi">
-</div>
-
-<!-- Savings -->
-<div class="slider-box">
-<label>Savings (%)</label>
-<span id="savingsValue">30</span>
-<input type="range" min="10" max="50" step="1" value="30" id="savings">
-</div>
-
-</div>
-
-
-<button class="predict-btn" onclick="predictGDP()">Run Prediction</button>
-
-<div id="loader" class="loader" style="display:none"></div>
-
-<div id="resultBox" class="result-box">
-    Waiting for prediction...
-</div>
-
-<!------ CHART ------>
-
-<div class="chart-panel">
-<canvas id="gdpChart"></canvas>
-</div>
-
-</div>
+    </div>
 
 </div>
 

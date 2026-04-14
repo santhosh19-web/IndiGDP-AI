@@ -1,39 +1,164 @@
 .fade-in {
-    animation: fadeIn 1s ease-in-out;
+  animation: smoothFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .slide-up {
-    animation: slideUp 1s ease;
+  animation: springUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes fadeIn {
-    from {opacity:0;}
-    to {opacity:1;}
+@keyframes smoothFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes slideUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+@keyframes springUp {
+  from {
+    transform: translateY(40px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .loader {
-    border: 4px solid rgba(255,255,255,0.2);
-    border-top: 4px solid #00ffd5;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-primary);
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    animation: spin 1s linear infinite;
-    margin: auto;
+    width: 28px;
+    height: 28px;
+    animation: spin 0.8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+    margin: 10px auto;
 }
 
 @keyframes spin {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Button & Card Hover Haptics */
+.btn-haptic {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-haptic:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-haptic:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* Professional Animated Background Elements */
+.bg-graphics {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.graphic {
+    position: absolute;
+    animation: floating 30s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.g-glow {
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 60%);
+    top: -20%; left: -20%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation-duration: 40s;
+}
+
+/* 3D Thick Square Ring */
+.g-square {
+    width: 220px; height: 220px;
+    border: 45px solid var(--border-color);
+    border-radius: 40px;
+    top: 15%; right: 10%;
+    opacity: 0.7;
+    background: rgba(255,255,255,0.05);
+    box-shadow: 
+        inset 15px 15px 25px rgba(255,255,255,0.4),
+        inset -15px -15px 30px rgba(0,0,0,0.3),
+        25px 25px 50px rgba(0,0,0,0.25);
+    animation: rotateFloat 35s infinite linear;
+}
+
+.g-dots {
+    width: 300px; height: 300px;
+    background-image: radial-gradient(var(--text-secondary) 2px, transparent 2px);
+    background-size: 35px 35px;
+    bottom: 5%; left: 10%;
+    opacity: 0.12;
+    animation-duration: 50s;
+}
+
+/* 3D Torus Ring */
+.g-ring {
+    width: 350px; height: 350px;
+    border: 75px solid var(--success-bg);
+    border-radius: 50%;
+    bottom: -5%; right: -5%;
+    opacity: 0.8;
+    box-shadow: 
+        inset 20px 20px 30px rgba(255, 255, 255, 0.5),
+        inset -20px -20px 30px rgba(16, 185, 129, 0.2),
+        -20px -20px 30px rgba(0, 0, 0, 0.05),
+        25px 25px 50px rgba(0, 0, 0, 0.3);
+    animation-duration: 25s;
+    animation-direction: alternate-reverse;
+}
+
+/* Highly realistic 3D Floating Sphere */
+.g-ball {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    top: 45%; left: 75%;
+    opacity: 0.85;
+    background: radial-gradient(circle at 30% 30%, var(--accent-hover), var(--border-color) 80%, #000 100%);
+    box-shadow: 
+        inset 15px 15px 20px rgba(255,255,255,0.6),
+        inset -10px -10px 30px rgba(0,0,0,0.5),
+        0 30px 40px rgba(0,0,0,0.4);
+    animation: bounceFloat 20s infinite alternate cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* New 3D Thick Pill Shape */
+.g-pill {
+    width: 250px; height: 100px;
+    background: var(--input-bg);
+    border-radius: 100px;
+    box-shadow: 
+        inset 15px 15px 25px rgba(255,255,255,0.4),
+        inset -15px -15px 25px rgba(0,0,0,0.2),
+        20px 20px 40px rgba(0,0,0,0.2);
+    top: 65%; left: 20%;
+    opacity: 0.8;
+    position: absolute;
+    animation: rotateFloat 40s infinite linear;
+}
+
+@keyframes floating {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(50px, -50px); }
+    66% { transform: translate(-30px, 30px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes rotateFloat {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-40px, 40px) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+@keyframes bounceFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-100px, -150px) scale(1.5); }
 }

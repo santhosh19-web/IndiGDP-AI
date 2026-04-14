@@ -3,53 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>IndiGDP AI</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <script>
+        // Prevent dark mode flash
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode"); // Add to root before body loads
+        }
+    </script>
     <style>
         body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            font-family: 'Poppins', sans-serif;
+            perspective: 2500px; /* Needed to render 3D rotational depth properly */
+            overflow: hidden;
         }
 
-        .glass-card {
-            width: 400px;
-            padding: 40px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(12px);
-            color: white;
+        .hero-bento {
+            width: 520px;
+            padding: 60px 50px;
             text-align: center;
-            box-shadow: 0 0 40px rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 10;
+            background: var(--surface-color);
+            border-radius: 40px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid rgba(255, 255, 255, 0.4); 
+            box-shadow: 
+                inset 10px 10px 20px rgba(255, 255, 255, 0.4),  
+                inset -10px -10px 20px rgba(0, 0, 0, 0.1),       
+                0 35px 50px -15px rgba(0, 0, 0, 0.3),            
+                0 15px 25px rgba(0, 0, 0, 0.15);                 
+            backdrop-filter: blur(15px);
+            
+            /* Book Opening Physics */
+            transform-origin: left center;
+        }
+        
+        .book-open-animation {
+            animation: bookOpen 0.7s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+            pointer-events: none;
         }
 
-        button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            background: #00ffcc;
-            font-weight: bold;
-            cursor: pointer;
+        @keyframes bookOpen {
+            0% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; }
+            100% { transform: translateY(0) scale(0.9) rotateY(-110deg); opacity: 0; }
         }
+
+        h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px;}
+        p { color: var(--text-secondary); margin-bottom: 40px; font-size: 20px; font-weight: 500; }
     </style>
 </head>
 
-<body>
+<body onload="if(localStorage.getItem('theme')==='dark') document.body.classList.add('dark-mode');">
 
-    <div class="glass-card">
+    <!-- Abstract Background Graphics -->
+    <div class="bg-graphics">
+        <div class="graphic g-glow"></div>
+        <div class="graphic g-square"></div>
+        <div class="graphic g-dots"></div>
+        <div class="graphic g-ring"></div>
+        <div class="graphic g-ball"></div>
+        <div class="graphic g-pill"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainCard" class="bento-card hero-bento slide-up">
         <h1>IndiGDP AI</h1>
         <p>Smart GDP Prediction Platform</p>
-
-        <a href="/dashboard">
-            <button>Open Dashboard</button>
+        <a href="/dashboard" onclick="openBook(event)">
+            <button class="predict-btn btn-haptic">Enter Workspace →</button>
         </a>
     </div>
 
+    <!-- Page Transition Script -->
+    <script>
+        function openBook(event) {
+            event.preventDefault(); 
+            const card = document.getElementById('mainCard');
+            card.classList.add('book-open-animation'); 
+            
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 750); 
+        }
+    </script>
 </body>
 </html>

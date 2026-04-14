@@ -1,30 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Settings</title>
+<title>Settings - IndiGDP AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+<script>
+    if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark-mode");
+    }
+</script>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/glass.css') }}">
+<style>
+.settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+}
 
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--input-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.setting-row h4 { margin-bottom: 5px; font-weight: 600; }
+.setting-row p { color: var(--text-secondary); margin: 0; font-size: 14px; }
+
+/* Toggle Switch CSS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+</style>
 </head>
-<body>
 
-<div class="glass-container fade-in">
+<body onload="if(localStorage.getItem('theme')==='dark') { document.body.classList.add('dark-mode'); document.getElementById('themeToggle').checked = true; }">
 
-<h2>Application Settings</h2>
+    <!-- Abstract Background Graphics -->
+    <div class="bg-graphics">
+        <div class="graphic g-glow"></div>
+        <div class="graphic g-square"></div>
+        <div class="graphic g-dots"></div>
+        <div class="graphic g-ring"></div>
+        <div class="graphic g-ball"></div>
+        <div class="graphic g-pill"></div>
+    </div>
 
-<p>Theme controls and preferences will go here.</p>
+<div class="app-layout fade-in">
 
-<button onclick="toggleDarkMode()" class="predict-btn">
-Toggle Dark Mode
-</button>
+    <!---------------- SIDEBAR ---------------->
+    <div class="sidebar bento-card">
+        <h3>IndiGDP AI</h3>
+        <a href="/dashboard"><button class="nav-btn btn-haptic">Dashboard</button></a>
+        <a href="/history"><button class="nav-btn btn-haptic">History</button></a>
+        <a href="/settings"><button class="nav-btn btn-haptic active">Settings</button></a>
+    </div>
 
-<a href="/dashboard">
-<button class="predict-btn">Back to Dashboard</button>
-</a>
-
+    <!---------------- MAIN AREA ---------------->
+    <div class="main-area">
+        <div class="bento-card settings-panel" style="flex:1;">
+            
+            <h2 style="font-weight:700; letter-spacing:-0.5px; margin-bottom: 10px;">Application Settings</h2>
+            
+            <div class="setting-row btn-haptic">
+                <div>
+                    <h4>Dark Mode Theme</h4>
+                    <p>Toggle the overarching aesthetic of the application.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="themeToggle" onchange="toggleDarkMode()">
+                  <span class="slider"></span>
+                </label>
+            </div>
+            
+        </div>
+    </div>
 </div>
 
 <script src="{{ url_for('static', filename='js/effects.js') }}"></script>
-
 </body>
 </html>
