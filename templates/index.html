@@ -49,6 +49,36 @@
             100% { transform: translateY(0) scale(0.9) rotateY(-110deg); opacity: 0; }
         }
 
+        .book-page-in {
+            animation: bookPageIn 0.8s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+            transform-origin: right center;
+        }
+
+        @keyframes bookPageIn {
+            0% { transform: translateY(0) scale(0.9) rotateY(110deg); opacity: 0; }
+            100% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; }
+        }
+
+        .book-page-out {
+            animation: bookPageOut 0.7s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+            transform-origin: right center;
+        }
+
+        @keyframes bookPageOut {
+            0% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; }
+            100% { transform: translateY(0) scale(0.9) rotateY(110deg); opacity: 0; }
+        }
+
+        .book-close-animation {
+            animation: bookClose 0.8s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+            transform-origin: left center;
+        }
+
+        @keyframes bookClose {
+            0% { transform: translateY(0) scale(0.9) rotateY(-110deg); opacity: 0; }
+            100% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; }
+        }
+
         h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px;}
         p { color: var(--text-secondary); margin-bottom: 40px; font-size: 20px; font-weight: 500; }
     </style>
@@ -70,21 +100,71 @@
     <div id="mainCard" class="bento-card hero-bento slide-up">
         <h1>IndiGDP AI</h1>
         <p>Smart GDP Prediction Platform</p>
-        <a href="/dashboard" onclick="openBook(event)">
+        <a href="#" onclick="openBook(event)">
             <button class="predict-btn btn-haptic">Enter Workspace →</button>
         </a>
+    </div>
+
+    <!-- Theory Content -->
+    <div id="theoryCard" class="bento-card hero-bento" style="display: none;">
+        <h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; line-height: 1.3;">
+            This is an application to Check GDP prediction of a country
+        </h2>
+        <p style="font-size: 16px; margin-bottom: 40px; line-height: 1.6;">
+            IndiGDP AI gives you prediction about GDP of our Country which contains interactive Dashboard with Graphical Presentation, History of previous predictions and to download the history as CSV , also Settings option
+        </p>
+        <button class="predict-btn btn-haptic" style="margin-bottom: 15px;" onclick="goToDashboard(event)">TRY NOW →</button>
+        <br>
+        <a href="#" onclick="goBack(event)" style="color: var(--text-secondary); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s;">← Go Back</a>
     </div>
 
     <!-- Page Transition Script -->
     <script>
         function openBook(event) {
             event.preventDefault(); 
-            const card = document.getElementById('mainCard');
-            card.classList.add('book-open-animation'); 
+            const mainCard = document.getElementById('mainCard');
+            const theoryCard = document.getElementById('theoryCard');
+            
+            mainCard.classList.remove('book-close-animation');
+            mainCard.classList.add('book-open-animation'); 
+            
+            setTimeout(() => {
+                mainCard.style.display = 'none';
+                theoryCard.style.display = 'block';
+                theoryCard.classList.add('book-page-in'); 
+            }, 650); 
+        }
+
+        function goBack(event) {
+            event.preventDefault();
+            const mainCard = document.getElementById('mainCard');
+            const theoryCard = document.getElementById('theoryCard');
+            
+            theoryCard.style.transformOrigin = 'right center'; 
+            theoryCard.classList.remove('book-page-in'); 
+            theoryCard.classList.add('book-page-out'); 
+            
+            setTimeout(() => {
+                theoryCard.style.display = 'none';
+                theoryCard.classList.remove('book-page-out'); 
+                
+                mainCard.style.display = 'block';
+                mainCard.classList.remove('slide-up');
+                mainCard.classList.remove('book-open-animation');
+                mainCard.classList.add('book-close-animation');
+            }, 650);
+        }
+
+        function goToDashboard(event) {
+            event.preventDefault();
+            const theoryCard = document.getElementById('theoryCard');
+            theoryCard.style.transformOrigin = 'left center'; 
+            theoryCard.classList.remove('book-page-in'); 
+            theoryCard.classList.add('book-open-animation'); 
             
             setTimeout(() => {
                 window.location.href = "/dashboard";
-            }, 750); 
+            }, 700); 
         }
     </script>
 </body>
