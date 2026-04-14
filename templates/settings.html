@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Settings</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/glass.css') }}">
+
+</head>
+<body>
+
+<div class="glass-container fade-in">
+
+<h2>Application Settings</h2>
+
+<p>Theme controls and preferences will go here.</p>
+
+<button onclick="toggleDarkMode()" class="predict-btn">
+Toggle Dark Mode
+</button>
+
+<a href="/dashboard">
+<button class="predict-btn">Back to Dashboard</button>
+</a>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/effects.js') }}"></script>
+
+</body>
+</html>
