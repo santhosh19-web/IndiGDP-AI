@@ -2,9 +2,9 @@
     display: flex;
     width: 95vw;
     max-width: 1400px;
-    height: 90vh;
+    min-height: 90vh; /* changed from fixed height to min-height */
     gap: 20px;
-    margin: auto;
+    margin: 20px auto;
 }
 
 /* Base Bento Card */
@@ -150,4 +150,66 @@ input[type=range] {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .app-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 15px;
+    }
+
+    .sidebar h3 {
+        display: none; /* Make room for horizontal layout */
+    }
+
+    .nav-btn {
+        white-space: nowrap;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .input-panel {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .bento-card {
+        padding: 16px;
+    }
+
+    .kpi-row {
+        grid-template-columns: 1fr;
+    }
+
+    .input-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar h3 {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .nav-btn {
+        width: auto;
+        flex: 1;
+        min-width: 100px;
+        padding: 10px;
+        font-size: 14px;
+    }
 }

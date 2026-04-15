@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IndiGDP AI Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
@@ -105,6 +107,33 @@
 <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
 <script src="{{ url_for('static', filename='js/api.js') }}"></script>
 <script src="{{ url_for('static', filename='js/effects.js') }}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('autorun') === 'true') {
+            const sliders = ['inflation', 'population', 'exports', 'imports', 'fdi', 'savings'];
+            sliders.forEach(id => {
+                const val = urlParams.get(id);
+                if (val) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.value = val;
+                        // update label span natively
+                        const output = document.getElementById(id + "Value");
+                        if (output) output.innerHTML = val;
+                    }
+                }
+            });
+            // small delay to let chart.js load fully if needed, then execute prediction
+            setTimeout(() => {
+                if (typeof predictGDP === 'function') {
+                    predictGDP();
+                }
+            }, 100);
+        }
+    });
+</script>
 
 </body>
 </html>

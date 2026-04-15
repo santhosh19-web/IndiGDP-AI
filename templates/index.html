@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IndiGDP AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
@@ -19,7 +20,8 @@
         }
 
         .hero-bento {
-            width: 520px;
+            width: 90%;
+            max-width: 520px;
             padding: 60px 50px;
             text-align: center;
             position: relative;
@@ -81,6 +83,17 @@
 
         h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px;}
         p { color: var(--text-secondary); margin-bottom: 40px; font-size: 20px; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .hero-bento {
+                padding: 40px 20px;
+                width: 95%;
+            }
+            h1 { font-size: 36px; }
+            p { font-size: 16px; margin-bottom: 30px; }
+            #theoryCard h2 { font-size: 24px !important; }
+            #theoryCard p { font-size: 14px !important; }
+        }
     </style>
 </head>
 
@@ -120,6 +133,20 @@
 
     <!-- Page Transition Script -->
     <script>
+        // Handle browser Back button (bfcache)
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                const mainCard = document.getElementById('mainCard');
+                const theoryCard = document.getElementById('theoryCard');
+                
+                mainCard.style.display = 'block';
+                mainCard.classList.remove('book-open-animation', 'book-close-animation');
+                
+                theoryCard.style.display = 'none';
+                theoryCard.classList.remove('book-page-in', 'book-page-out', 'book-open-animation');
+            }
+        });
+
         function openBook(event) {
             event.preventDefault(); 
             const mainCard = document.getElementById('mainCard');

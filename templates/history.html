@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prediction History - IndiGDP AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
@@ -22,6 +24,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
@@ -138,7 +142,7 @@ tr:hover {
                     </thead>
                     <tbody>
                         {% for entry in history %}
-                        <tr class="btn-haptic">
+                        <tr class="btn-haptic" style="cursor: pointer;" title="Double-click to load in Dashboard" ondblclick="loadPrediction({{ entry.inflation }}, {{ entry.population }}, {{ entry.exports }}, {{ entry.imports }}, {{ entry.fdi }}, {{ entry.savings }})">
                             <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
                             <td>{{ entry.inflation }}%</td>
                             <td>{{ entry.population }}B</td>
@@ -165,6 +169,11 @@ tr:hover {
 
 <script src="{{ url_for('static', filename='js/effects.js') }}"></script>
 <script>
+    function loadPrediction(inf, pop, exp, imp, fdi, sav) {
+        const url = `/dashboard?inflation=${inf}&population=${pop}&exports=${exp}&imports=${imp}&fdi=${fdi}&savings=${sav}&autorun=true`;
+        window.location.href = url;
+    }
+
     async function clearHistory() {
         if(!confirm("Are you sure you want to clear all prediction history?")) return;
         
