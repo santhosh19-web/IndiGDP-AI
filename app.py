@@ -111,7 +111,7 @@ def predict():
         fdi = float(data["fdi"])
         savings = float(data["savings"])
 
-        input_data = np.array([[inflation, population, exports, imports, fdi, savings]])
+        input_data = np.array([[inflation, population * 1000000000, exports, imports, fdi, savings]])
         input_scaled = scaler.transform(input_data)
         prediction = model.predict(input_scaled)
         
