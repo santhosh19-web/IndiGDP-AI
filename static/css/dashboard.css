@@ -84,6 +84,18 @@
 
 .kpi-card p#status {
     color: var(--success-color);
+    transition: color 0.3s ease;
+}
+
+.kpi-card p#status.status-running {
+    color: #f59e0b; /* Amber/Orange */
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 /* Input Panel & Sliders */
@@ -146,10 +158,69 @@ input[type=range] {
 
 /* Chart Panel */
 .chart-panel {
-    min-height: 250px;
+    min-height: 350px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+}
+
+.chart-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-color);
+}
+
+.placeholder-overlay {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.placeholder-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 120px;
+}
+
+.placeholder-bars .bar {
+    width: 12px;
+    background: var(--border-color);
+    border-radius: 6px;
+    animation: barGrow 2s infinite ease-in-out;
+    height: 20px;
+    animation-delay: var(--d);
+}
+
+.dark-mode .placeholder-bars .bar {
+    background: #1f2937;
+}
+
+@keyframes barGrow {
+    0%, 100% { 
+        height: 20px; 
+        background: var(--border-color);
+    }
+    50% { 
+        height: var(--h); 
+        background: var(--accent-primary);
+        opacity: 0.5;
+    }
+}
+
+.placeholder-overlay p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 /* Responsive Design */

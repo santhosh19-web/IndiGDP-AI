@@ -18,8 +18,16 @@ async function predictGDP() {
         return;
     }
 
+    const statusEl = document.getElementById("status");
+    
     loader.style.display="block";
     resultBox.innerHTML="";
+    statusEl.innerHTML = "Running";
+    statusEl.classList.add("status-running");
+    
+    // Hide placeholder and show canvas (or keep hidden until data arrives)
+    document.getElementById("chartPlaceholder").style.display = "none";
+    document.getElementById("gdpChart").style.display = "block";
 
     try {
         const response = await fetch("/api/predict",{
@@ -36,13 +44,16 @@ async function predictGDP() {
         localStorage.setItem("gdp", res.predicted_gdp);
 
         resultBox.innerHTML = `Predicted GDP: ${res.predicted_gdp} ${res.unit} ✅`;
-        document.getElementById("status").innerHTML = "Ready";
+        statusEl.innerHTML = "Ready";
+        statusEl.classList.remove("status-running");
 
         drawChart(res.predicted_gdp, data);
         
     } catch (e) {
         loader.style.display="none";
         resultBox.innerHTML = `Error: ${e.message}`;
+        statusEl.innerHTML = "Ready";
+        statusEl.classList.remove("status-running");
     }
 }
 
@@ -78,8 +89,15 @@ function drawChart(predictedGDP, inputs) {
             responsive: true,
             maintainAspectRatio: false,
             animation: {
-                duration: 1200,
-                easing: 'easeOutQuart'
+                duration: 2000,
+                easing: 'easeOutQuart',
+                delay: (context) => {
+                    let delay = 0;
+                    if (context.type === 'data' && context.mode === 'default' && !context.active) {
+                        delay = context.dataIndex * 400; // Staggered delay for each bar
+                    }
+                    return delay;
+                }
             },
             plugins: {
                 legend: { display: false }

@@ -26,6 +26,9 @@
         <div class="graphic g-ring"></div>
         <div class="graphic g-ball"></div>
         <div class="graphic g-pill"></div>
+        <div class="graphic g-cube"></div>
+        <div class="graphic g-pyramid"></div>
+        <div class="graphic g-donut"></div>
     </div>
 
 <div class="app-layout fade-in">
@@ -96,8 +99,20 @@
         </div>
 
         <!------ CHART ------>
-        <div class="bento-card chart-panel">
-            <canvas id="gdpChart"></canvas>
+        <div class="bento-card chart-panel" style="position: relative;">
+            <div id="chartPlaceholder" class="chart-placeholder">
+                <div class="placeholder-overlay">
+                    <div class="placeholder-bars">
+                        <div class="bar" style="--h: 40px; --d: 0s;"></div>
+                        <div class="bar" style="--h: 80px; --d: 0.2s;"></div>
+                        <div class="bar" style="--h: 60px; --d: 0.4s;"></div>
+                        <div class="bar" style="--h: 100px; --d: 0.6s;"></div>
+                        <div class="bar" style="--h: 70px; --d: 0.8s;"></div>
+                    </div>
+                    <p>Awaiting Data Analysis...</p>
+                </div>
+            </div>
+            <canvas id="gdpChart" style="display: none;"></canvas>
         </div>
 
     </div>
