@@ -55,3 +55,24 @@ h1, h2, h3, h4, h5 {
 a {
   text-decoration: none;
 }
+
+/* Color Themes */
+body.theme-blue {
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-text: #ffffff;
+}
+body.theme-green {
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --accent-text: #ffffff;
+}
+body.theme-purple {
+  --accent-primary: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --accent-text: #ffffff;
+}
+
+/* Base font-size on body to enable rem usage globally if needed, though we will just override child sizes directly */
+body.font-small * { font-size: 90%; }
+body.font-large * { font-size: 110%; }

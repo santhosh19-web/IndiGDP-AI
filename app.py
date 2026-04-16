@@ -69,6 +69,20 @@ def clear_history():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/history/delete/<int:id>", methods=["POST"])
+def delete_history_item(id):
+    try:
+        record = PredictionHistory.query.get(id)
+        if record:
+            db.session.delete(record)
+            db.session.commit()
+            return jsonify({"status": "Item deleted successfully"})
+        return jsonify({"error": "Item not found"}), 404
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/history/export")
 def export_history():
     records = PredictionHistory.query.order_by(PredictionHistory.timestamp.desc()).all()
