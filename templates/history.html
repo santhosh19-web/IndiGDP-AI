@@ -1,158 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prediction History - IndiGDP AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
-<script>
-    if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark-mode");
-    }
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction History - IndiGDP AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
 
-<style>
-.history-area {
-    margin: auto;
-    width: 100%;
-}
+    <style>
+        .history-area {
+            margin: auto;
+            width: 100%;
+        }
 
-.action-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-}
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    margin-top: 10px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 10px;
+        }
 
-th, td {
-    padding: 14px 15px;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 14px;
-}
+        th,
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
 
-th {
-    background: var(--input-bg);
-    font-weight: 600;
-    color: var(--text-secondary);
-}
+        th {
+            background: var(--input-bg);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
 
-tr:hover {
-    background: var(--input-bg);
-}
+        tr:hover {
+            background: var(--input-bg);
+        }
 
-.badge-gdp {
-    background: var(--success-bg);
-    color: var(--success-color);
-    padding: 6px 12px;
-    border-radius: 12px;
-    font-weight: 700;
-}
+        .badge-gdp {
+            background: var(--success-bg);
+            color: var(--success-color);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
 
-.btn-secondary {
-    padding: 10px 20px;
-    border-radius: 12px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    background: #e11d48;
-    color: white;
-    margin-left: 10px;
-}
+        .btn-secondary {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            background: #e11d48;
+            color: white;
+            margin-left: 10px;
+        }
 
-.btn-outline {
-    padding: 10px 20px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    font-weight: 600;
-    cursor: pointer;
-    background: transparent;
-    color: var(--text-primary);
-    margin-left: 10px;
-    text-decoration: none;
-}
+        .btn-outline {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-primary);
+            margin-left: 10px;
+            text-decoration: none;
+        }
 
-.empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-secondary);
-}
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
 
-/* Dropdown Menu CSS */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+        /* Dropdown Menu CSS */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
-.dropbtn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--text-secondary);
-    padding: 0 10px;
-    border-radius: 5px;
-    transition: 0.2s;
-}
-.dropbtn:hover {
-    color: var(--text-primary);
-    background: var(--border-color);
-}
+        .dropbtn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            padding: 0 10px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 30px;
-    background-color: var(--surface-color);
-    min-width: 150px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    z-index: 100;
-    overflow: hidden;
-}
+        .dropbtn:hover {
+            color: var(--text-primary);
+            background: var(--border-color);
+        }
 
-.dropdown-content button {
-    width: 100%;
-    color: var(--text-primary);
-    padding: 12px 16px;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    background: transparent;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-}
-.dropdown-content button:last-child {
-    border-bottom: none;
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 30px;
+            background-color: var(--surface-color);
+            min-width: 150px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            z-index: 100;
+            overflow: hidden;
+        }
 
-.dropdown-content button:hover {
-    background-color: var(--input-bg);
-}
+        .dropdown-content button {
+            width: 100%;
+            color: var(--text-primary);
+            padding: 12px 16px;
+            text-align: left;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
 
-.dropdown-content .delete-btn {
-    color: #e11d48;
-}
-.dropdown-content .delete-btn:hover {
-    background-color: rgba(225, 29, 72, 0.1);
-}
-.show { display: block !important; }
-</style>
+        .dropdown-content button:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content button:hover {
+            background-color: var(--input-bg);
+        }
+
+        .dropdown-content .delete-btn {
+            color: #e11d48;
+        }
+
+        .dropdown-content .delete-btn:hover {
+            background-color: rgba(225, 29, 72, 0.1);
+        }
+
+        .show {
+            display: block !important;
+        }
+    </style>
 </head>
 
 <body onload="if(localStorage.getItem('theme')==='dark') document.body.classList.add('dark-mode');">
@@ -170,146 +178,151 @@ tr:hover {
         <div class="graphic g-donut"></div>
     </div>
 
-<div class="app-layout fade-in">
-    
-    <!---------------- SIDEBAR ---------------->
-    <div class="sidebar bento-card">
-        <h3 id="sidebarName">IndiGDP AI</h3>
-        <a href="/dashboard"><button class="nav-btn btn-haptic">Dashboard</button></a>
-        <a href="/history"><button class="nav-btn btn-haptic active">History</button></a>
-        <a href="/settings"><button class="nav-btn btn-haptic">Settings</button></a>
-    </div>
+    <div class="app-layout fade-in">
 
-    <!---------------- MAIN AREA ---------------->
-    <div class="main-area history-area">
-        <div class="bento-card" style="flex: 1;">
-            
-            <div class="action-row">
-                <h2 style="font-weight:700; letter-spacing:-0.5px;">Prediction History</h2>
-                <div>
-                    <a href="/api/history/export" class="btn-outline btn-haptic">↓ Export CSV</a>
-                    <button class="btn-secondary btn-haptic" onclick="clearHistory()">🗑 Clear History</button>
+        <!---------------- SIDEBAR ---------------->
+        <div class="sidebar bento-card">
+            <h3 id="sidebarName">IndiGDP AI</h3>
+            <a href="/dashboard"><button class="nav-btn btn-haptic">Dashboard</button></a>
+            <a href="/history"><button class="nav-btn btn-haptic active">History</button></a>
+            <a href="/settings"><button class="nav-btn btn-haptic">Settings</button></a>
+        </div>
+
+        <!---------------- MAIN AREA ---------------->
+        <div class="main-area history-area">
+            <div class="bento-card" style="flex: 1;">
+
+                <div class="action-row">
+                    <h2 style="font-weight:700; letter-spacing:-0.5px;">Prediction History</h2>
+                    <div>
+                        <a href="/api/history/export" class="btn-outline btn-haptic">↓ Export CSV</a>
+                        <button class="btn-secondary btn-haptic" onclick="clearHistory()">🗑 Clear History</button>
+                    </div>
                 </div>
-            </div>
 
-            <div style="overflow-x: auto;">
-                {% if history %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date (UTC)</th>
-                            <th>Inflation</th>
-                            <th>Pop</th>
-                            <th>Exports</th>
-                            <th>Imports</th>
-                            <th>FDI</th>
-                            <th>Savings</th>
-                            <th>Prediction</th>
-                            <th style="width: 50px; text-align: center;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in history %}
-                        <tr class="btn-haptic" style="cursor: pointer;" ondblclick="loadPrediction({{ entry.inflation }}, {{ entry.population }}, {{ entry.exports }}, {{ entry.imports }}, {{ entry.fdi }}, {{ entry.savings }})">
-                            <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
-                            <td>{{ entry.inflation }}%</td>
-                            <td>{{ entry.population }}B</td>
-                            <td>${{ entry.exports }}B</td>
-                            <td>${{ entry.imports }}B</td>
-                            <td>${{ entry.fdi }}B</td>
-                            <td>{{ entry.savings }}%</td>
-                            <td><span class="badge-gdp">{{ entry.predicted_gdp }}T</span></td>
-                            <td style="text-align: center;">
-                                <div class="dropdown">
-                                    <button class="dropbtn" onclick="toggleDropdown(event, {{ entry.id }})">⋮</button>
-                                    <div id="dropdown-{{ entry.id }}" class="dropdown-content">
-                                        <button onclick="loadPrediction({{ entry.inflation }}, {{ entry.population }}, {{ entry.exports }}, {{ entry.imports }}, {{ entry.fdi }}, {{ entry.savings }})">Show</button>
-                                        <button class="delete-btn" onclick="deleteHistoryItem({{ entry.id }})">Delete</button>
+                <div style="overflow-x: auto;">
+                    {% if history %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date (UTC)</th>
+                                <th>Inflation</th>
+                                <th>Pop</th>
+                                <th>Exports</th>
+                                <th>Imports</th>
+                                <th>FDI</th>
+                                <th>Savings</th>
+                                <th>Prediction</th>
+                                <th style="width: 50px; text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in history %}
+                            <tr class="btn-haptic" style="cursor: pointer;"
+                                ondblclick="loadPrediction({{ entry.inflation }}, {{ entry.population }}, {{ entry.exports }}, {{ entry.imports }}, {{ entry.fdi }}, {{ entry.savings }})">
+                                <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ entry.inflation }}%</td>
+                                <td>{{ entry.population }}B</td>
+                                <td>${{ entry.exports }}B</td>
+                                <td>${{ entry.imports }}B</td>
+                                <td>${{ entry.fdi }}B</td>
+                                <td>{{ entry.savings }}%</td>
+                                <td><span class="badge-gdp">{{ entry.predicted_gdp }}T</span></td>
+                                <td style="text-align: center;">
+                                    <div class="dropdown">
+                                        <button class="dropbtn"
+                                            onclick="toggleDropdown(event, {{ entry.id }})">⋮</button>
+                                        <div id="dropdown-{{ entry.id }}" class="dropdown-content">
+                                            <button
+                                                onclick="loadPrediction({{ entry.inflation }}, {{ entry.population }}, {{ entry.exports }}, {{ entry.imports }}, {{ entry.fdi }}, {{ entry.savings }})">Show</button>
+                                            <button class="delete-btn"
+                                                onclick="deleteHistoryItem({{ entry.id }})">Delete</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <div class="empty-state">
-                    <h3>No predictions yet!</h3>
-                    <p>Go to the Dashboard and run a prediction to see it stored here.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <h3>No predictions yet!</h3>
+                        <p>Go to the Dashboard and run a prediction to see it stored here.</p>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
 
-<script src="{{ url_for('static', filename='js/effects.js') }}"></script>
-<script>
-    function loadPrediction(inf, pop, exp, imp, fdi, sav) {
-        const url = `/dashboard?inflation=${inf}&population=${pop}&exports=${exp}&imports=${imp}&fdi=${fdi}&savings=${sav}&autorun=true`;
-        window.location.href = url;
-    }
-
-    function toggleDropdown(event, id) {
-        event.stopPropagation();
-        
-        // Hide all others
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-            if (dropdowns[i].id !== "dropdown-" + id) {
-                dropdowns[i].classList.remove('show');
-            }
+    <script src="{{ url_for('static', filename='js/effects.js') }}"></script>
+    <script>
+        function loadPrediction(inf, pop, exp, imp, fdi, sav) {
+            const url = `/dashboard?inflation=${inf}&population=${pop}&exports=${exp}&imports=${imp}&fdi=${fdi}&savings=${sav}&autorun=true`;
+            window.location.href = url;
         }
-        
-        document.getElementById("dropdown-" + id).classList.toggle("show");
-    }
 
-    // Close dropdowns if user clicks outside
-    window.onclick = function(event) {
-        if (!event.target.closest('.dropdown')) {
+        function toggleDropdown(event, id) {
+            event.stopPropagation();
+
+            // Hide all others
             var dropdowns = document.getElementsByClassName("dropdown-content");
             for (var i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
+                if (dropdowns[i].id !== "dropdown-" + id) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+
+            document.getElementById("dropdown-" + id).classList.toggle("show");
+        }
+
+        // Close dropdowns if user clicks outside
+        window.onclick = function (event) {
+            if (!event.target.closest('.dropdown')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
                 }
             }
         }
-    }
 
-    async function deleteHistoryItem(id) {
-        if(!confirm("Are you sure you want to delete this prediction?")) return;
-        
-        try {
-            const response = await fetch('/api/history/delete/' + id, { method: 'POST' });
-            if(response.ok) {
-                window.location.reload();
-            } else {
-                alert("Failed to delete item.");
-            }
-        } catch (e) {
-            console.error(e);
-            alert("Error connecting to server.");
-        }
-    }
+        async function deleteHistoryItem(id) {
+            if (!confirm("Are you sure you want to delete this prediction?")) return;
 
-    async function clearHistory() {
-        if(!confirm("Are you sure you want to clear all prediction history?")) return;
-        
-        try {
-            const response = await fetch('/api/history/clear', { method: 'POST' });
-            if(response.ok) {
-                window.location.reload();
-            } else {
-                alert("Failed to clear history.");
+            try {
+                const response = await fetch('/api/history/delete/' + id, { method: 'POST' });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Failed to delete item.");
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Error connecting to server.");
             }
-        } catch (e) {
-            console.error(e);
-            alert("Error connecting to server.");
         }
-    }
-</script>
+
+        async function clearHistory() {
+            if (!confirm("Are you sure you want to clear all prediction history?")) return;
+
+            try {
+                const response = await fetch('/api/history/clear', { method: 'POST' });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Failed to clear history.");
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Error connecting to server.");
+            }
+        }
+    </script>
 
 </body>
+
 </html>
