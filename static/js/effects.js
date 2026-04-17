@@ -151,7 +151,7 @@ sliders.forEach(pair => {
 
   if(slider && output){
     slider.oninput = function(){
-      output.innerHTML = this.value;
+      output.innerHTML = parseFloat(this.value).toFixed(2);
     }
   }
 });
