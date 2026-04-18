@@ -55,36 +55,71 @@
                 <p>Random Forest</p>
             </div>
             <div class="bento-card kpi-card btn-haptic">
-                <h4>Current Accuracy</h4>
+                <h4>Accuracy</h4>
                 <p>94%</p>
+            </div>
+            <div class="bento-card kpi-card btn-haptic">
+                <h4>Market Pulse</h4>
+                <p id="marketSentiment">Stable</p>
             </div>
         </div>
 
         <!------ INPUT PANEL ------>
         <div class="bento-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; font-size: 18px;">Input Economic Parameters</h3>
+                <button class="sync-btn btn-haptic" onclick="syncMarketData()" id="syncBtn">
+                    <span id="syncIcon">🔄</span> Sync Market Data
+                </button>
+            </div>
+
             <div class="input-panel">
                 <div class="slider-box">
-                    <label>Inflation (%) <span id="inflationValue">5.00</span></label>
+                    <div class="slider-header">
+                        <label>Inflation (%) <span id="inflationValue">5.00</span></label>
+                        <span id="inflationTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="inflationSparkline"></canvas></div>
                     <input type="range" min="0" max="30" step="0.1" value="5" id="inflation">
                 </div>
                 <div class="slider-box">
-                    <label>Population (Billions) <span id="populationValue">1.40</span></label>
+                    <div class="slider-header">
+                        <label>Population (B) <span id="populationValue">1.40</span></label>
+                        <span id="populationTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="populationSparkline"></canvas></div>
                     <input type="range" min="0.5" max="2.5" step="0.01" value="1.4" id="population">
                 </div>
                 <div class="slider-box">
-                    <label>Exports (Billion USD) <span id="exportsValue">400.00</span></label>
+                    <div class="slider-header">
+                        <label>Exports ($B) <span id="exportsValue">400.00</span></label>
+                        <span id="exportsTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="exportsSparkline"></canvas></div>
                     <input type="range" min="5" max="1500" step="1" value="400" id="exports">
                 </div>
                 <div class="slider-box">
-                    <label>Imports (Billion USD) <span id="importsValue">500.00</span></label>
+                    <div class="slider-header">
+                        <label>Imports ($B) <span id="importsValue">500.00</span></label>
+                        <span id="importsTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="importsSparkline"></canvas></div>
                     <input type="range" min="10" max="1500" step="1" value="500" id="imports">
                 </div>
                 <div class="slider-box">
-                    <label>FDI (Billion USD) <span id="fdiValue">50.00</span></label>
+                    <div class="slider-header">
+                        <label>FDI ($B) <span id="fdiValue">50.00</span></label>
+                        <span id="fdiTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="fdiSparkline"></canvas></div>
                     <input type="range" min="0" max="300" step="0.1" value="50" id="fdi">
                 </div>
                 <div class="slider-box">
-                    <label>Savings (%) <span id="savingsValue">30.00</span></label>
+                    <div class="slider-header">
+                        <label>Savings (%) <span id="savingsValue">30.00</span></label>
+                        <span id="savingsTrend" class="trend-hint"></span>
+                    </div>
+                    <div class="sparkline-container"><canvas id="savingsSparkline"></canvas></div>
                     <input type="range" min="10" max="80" step="0.1" value="30" id="savings">
                 </div>
             </div>
